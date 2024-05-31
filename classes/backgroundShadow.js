@@ -1,6 +1,12 @@
+// This class creates the background foggy building
+// parameters:
+// xPos = x position
+// yPos = y position
+// opacity of the building
+
 class BackgroundShadow {
   constructor(xPos, yPos, opacity) {
-    // Initialize any properties if needed
+    // the X and Y position and the opacity of the image
     this.xPos = xPos;
     this.yPos = yPos;
     this.opacity = opacity;
@@ -25,10 +31,12 @@ class BackgroundShadow {
     pop();
   }
 
+
+  //Draw the Lighthouse
   drawLighthouse() {
 
-
-    fill(112, 103, 114,this.opacity); // Shape color with no transparency
+    // Shape color with the opactiy of the object
+    fill(112, 103, 114,this.opacity); 
     beginShape();
     vertex(53, 0);
     vertex(55, 2);

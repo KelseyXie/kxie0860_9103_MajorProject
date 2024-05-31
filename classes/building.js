@@ -1,22 +1,37 @@
 //Class Building to constructed the main churchlike building in the centrepiece.
-
+// parameters:
+// xPos = x position
+// yPos = y position
+// red = red colour value
+// green = green colour value
+// blue = blue colour value
 class Building {
-  constructor(xPos, yPos, R, G, B) {
+  //Initiatilse the X and Y Position. Set the colour of the red, green and blue value.
+  constructor(xPos, yPos, red, green, blue) {
     this.xPos = xPos;
     this.yPos = yPos;
-    this.R = R;
-    this.G = G;
-    this.B = B;
+    this.red = red;
+    this.green = green;
+    this.blue = blue;
+    this.size = 0.6;
+    this.alpha = 255
   }
 
+  //Display the building
   display() {
+    //save the setting
     push();
-    //set setting for brush
-    scale(.8);
+
+    //Scale the builidng
+    scale(this.size);
+
+    //Move the building to the X and Y position as constructed
     translate(this.xPos, this.yPos);
-    stroke(this.R, this.G, this.B);
-    //Draw Base
-    fill(this.R, this.G, this.B);
+    
+    //Set the colour of the building
+    fill(this.red, this.green, this.blue);
+
+    //Draw the base
     beginShape()
     vertex(-800, 0);
     vertex(0, 0);
@@ -37,7 +52,7 @@ class Building {
     vertex(-340, -195);
     vertex(-390, -195);
     vertex(-390, -235);
-    //Dome
+    //Draw the Dome
     vertex(-400, -255);
     vertex(-430, -275);
     vertex(-430, -295);
@@ -46,7 +61,7 @@ class Building {
     vertex(-450, -275);
     vertex(-470, -265);
     vertex(-480, -245);
-    //Tower
+    //Draw the Tower
     vertex(-480, -500);
     vertex(-500, -560);
     vertex(-510, -650);
@@ -60,7 +75,7 @@ class Building {
     vertex(-555, -520);
     vertex(-560, -500);
     vertex(-560, -200);
-    //Left Side Wall
+    //Draw the Ledt side
     vertex(-590, -180);
     vertex(-600, -170);
     vertex(-630, -190);
@@ -77,13 +92,15 @@ class Building {
     pop();
   }
 
-  reflection(r, g, b, a) {
+
+  //this method creates a reflection that is split into four segments
+  reflection(red, green, blue, opacity) {
     push();
     translate(this.xPos, this.yPos-24);
-    scale(.8, -.8);
-    stroke(r, g, b, a);
-    //Draw Base
-    fill(r, g, b, a);
+    scale(this.size, -this.size);
+    stroke(red, green, blue, opacity);
+    //Draw the base segment
+    fill(red, green, blue, opacity);
     beginShape()
     vertex(-730, -100);
     vertex(-900, -100);
@@ -98,7 +115,7 @@ class Building {
     vertex(-60, -90);
     vertex(-170, -90);
     endShape(CLOSE);
-    //City
+    //Draw the city segment
     beginShape();
     vertex(-200, -115);
     vertex(-200, -140);
@@ -111,7 +128,6 @@ class Building {
     vertex(-280, -165);
     vertex(-340, -195);
     vertex(-390, -195);
-    //Left Side Wall
     vertex(-590, -180);
     vertex(-600, -170);
     vertex(-630, -190);
@@ -122,7 +138,7 @@ class Building {
     vertex(-730, -125);
     endShape(CLOSE);
     beginShape();
-    //Dome
+    //Draw the dome segment
     vertex(-390, -215);
     vertex(-400, -255);
     vertex(-430, -275);
@@ -133,7 +149,7 @@ class Building {
     vertex(-470, -265);
     vertex(-560, -245);
     vertex(-560, -200);
-    //Tower
+     //Draw the tower segment
     endShape(CLOSE);
     beginShape();
     vertex(-480, -285);
@@ -154,7 +170,33 @@ class Building {
     pop();
   }
 
-  update() { }
 
+  // this methods updates the colours of the building
+  updateColours(red, green, blue) { 
+    this.red = red;
+    this.green = green;
+    this.blue = blue;
+  }
+  illuminate() {
+    if (this.alpha > 0) {
+      this.alpha -= 6;
+    }
+  }
+  lightup(){
+    noStroke()
+    fill(230,230,180)
+    rect(-320,-210,18,30)
+    rect(-320,-130,18,30)
+    rect(-273,-50,20,25)
+    circle(-263,-50,20)
+    rect(-420,-10,30,20)
+    rect(-160,-10,20,30)
+    rect(-540,30,18,18)
+    rect(-515,30,18,18)
+    rect(-460,30,18,18)
+    rect(-90,30,18,18)
+    rect(-65,30,18,18)
+
+  }
 
 }
