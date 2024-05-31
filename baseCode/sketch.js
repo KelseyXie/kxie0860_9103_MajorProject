@@ -34,8 +34,10 @@ function setup() {
   //创建水  // Create water
   water = new Water(60, 90);
   //创建海鸥  // Create seagulls
-  seagull1 = new Seagull(-100, -300, 300, 100, 1, color(0));          // Original seagull
+  seagull1 = new Seagull(-100, -300, 300, 100, 1, color(10));  //  bigger, dark-colored seagull
   seagull2 = new Seagull(-100, -100, 200, 100, 0.7, color(100)); // Smaller, lighter-colored seagull
+  seagull3 = new Seagull(-600, -200, 200, 100, 0.5, color(30)); // Smallest, dark-colored seagull
+
   // 创建背景 // Create gradient background
   let skyXPos = -windowWidth / 2;
   let skyYPos = -windowHeight / 2;
@@ -77,11 +79,7 @@ function draw() {
   backgroundShadow.display();
   //水  // Water
   water.displayPerlinNoise();
-  //海鸥  // Seagulls
-  seagull1.move();
-  seagull2.move();
-  seagull1.display();
-  seagull2.display();
+ 
   //水波  // Water waves
   for (let purpleWave of purpleWaves) {
     purpleWave.edges();
@@ -95,14 +93,30 @@ function draw() {
     whiteWave.update(1, 1, 200, 200, 200);
     whiteWave.display();
   }
+
  //夜间蒙版 // NightMask class
 let currentFrame = frameCount % (10 * 60);
 if (currentFrame < 2 * 60) {
   sunRange = map(currentFrame, 0, 2 * 60, width / 2, 150)
+    //海鸥  // Seagulls
+    seagullAlpha = map(currentFrame, 0, 2 * 60, 250, 0)
+    seagull1.move();
+    seagull2.move();
+    seagull3.move();
+    seagull1.display(seagullAlpha);
+    seagull2.display(seagullAlpha)
+    seagull3.display(seagullAlpha)
 } else if ((currentFrame < 8 * 60)) {
   sunRange = 150
 } else {
   sunRange = map(currentFrame, 8 * 60, 10 * 60, 150, width / 2)
+  seagullAlpha = map(currentFrame, 8 * 60, 10 * 60, 0, 250)
+    seagull1.move();
+    seagull2.move();
+    seagull3.move();
+    seagull1.display(seagullAlpha);
+    seagull2.display(seagullAlpha)
+    seagull3.display(seagullAlpha)
 }
 let nightMask = new NightMask(-400, 100, width * 2, 10, 30, 80, sunRange);
 nightMask.display();

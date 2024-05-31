@@ -29,6 +29,7 @@ class Building {
     translate(this.xPos, this.yPos);
     
     //Set the colour of the building
+    noStroke()
     fill(this.red, this.green, this.blue);
 
     //Draw the base
@@ -202,8 +203,6 @@ class Building {
     rect(-273,180,20,15)
     rect(-530,120,30,10)
     rect(-85,120,30,10)
-
-
   }
 
 }

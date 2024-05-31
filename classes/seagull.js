@@ -35,18 +35,17 @@ class Seagull {
     this.noiseOffsetY = random(1000); // Offset for Perlin noise in y direction
   }
   //this method draw the bird on X and Y position
-  display() {
+  display(alpha) {
     push();
     //postion the bird
     translate(this.x, this.y);
 
     //set the colour
     stroke(this.color);
+    this.color.setAlpha(alpha)
     noFill();
     strokeWeight(2);
-
-    //set the scale of the bird
-    scale(this.size);
+    
     
     // Draw left wing
     beginShape();
@@ -76,5 +75,6 @@ class Seagull {
     // Increment noise offsets for next frame (slower speed)
     this.noiseOffsetX += 0.005;
     this.noiseOffsetY += 0.005;
+
   }
 }
