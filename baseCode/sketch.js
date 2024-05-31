@@ -1,4 +1,3 @@
-//初始设置
 let gradientSky;
 let gradientSea
 const purpleWaves = [];
@@ -32,12 +31,12 @@ function windowResized() {
 function setup() {
   angleMode(DEGREES);
   createCanvas(windowWidth, windowHeight, WEBGL);
-  //创建水
+  //创建水  // Create water
   water = new Water(60, 90);
-  //创建海鸥
+  //创建海鸥  // Create seagulls
   seagull1 = new Seagull(-100, -300, 300, 100, 1, color(0));          // Original seagull
   seagull2 = new Seagull(-100, -100, 200, 100, 0.7, color(100)); // Smaller, lighter-colored seagull
-  //创建背景
+  // 创建背景 // Create gradient background
   let skyXPos = -windowWidth / 2;
   let skyYPos = -windowHeight / 2;
   let skyWidth = windowWidth;
@@ -54,10 +53,10 @@ function setup() {
   let color3 = color(160, 80, 50, 100); // Red
   gradientSky = new GradientWave(skyXPos, skyYPos, skyWidth + 200, skyHeight, amplitude1, yPercent1, yPercent2, color0, color1, color2, color3);
   gradientSea = new GradientWave(skyXPos, 150, skyWidth + 200, skyHeight, amplitude2, yPercent3, yPercent4, color3, color2, color1, color0);
-  //创建建筑
+  //创建建筑  // Create building
   backgroundShadow = new BackgroundShadow(400, -120, 122);
   building = new Building(0, 120, 0, 0, 0);
-  //创建水波
+  //创建水波  // Create water waves
   for (let i = 0; i < 25; i++) {
     purpleWaves.push(new WaveBrush(0, 170, width / 2, 200));
   }
@@ -69,21 +68,21 @@ function setup() {
 //Draw
 function draw() {
   background("#FFFFFF")
-  //渐变背景
+  //渐变背景  // Gradient background
   gradientSky.display();
   gradientSea.display();
-  //建筑
+  //建筑  // Building
   building.display();
   building.reflection(20, 20, 20, 120);
   backgroundShadow.display();
-  //水
+  //水  // Water
   water.displayPerlinNoise();
-  //海鸥
+  //海鸥  // Seagulls
   seagull1.move();
   seagull2.move();
   seagull1.display();
   seagull2.display();
-  //水波
+  //水波  // Water waves
   for (let purpleWave of purpleWaves) {
     purpleWave.edges();
     purpleWave.flock(purpleWaves, 1, 0, 1);
@@ -96,4 +95,47 @@ function draw() {
     whiteWave.update(1, 1, 200, 200, 200);
     whiteWave.display();
   }
+ //夜间蒙版 // NightMask class
+let currentFrame = frameCount % (10 * 60);
+if (currentFrame < 2 * 60) {
+  sunRange = map(currentFrame, 0, 2 * 60, width / 2, 150)
+} else if ((currentFrame < 8 * 60)) {
+  sunRange = 150
+} else {
+  sunRange = map(currentFrame, 8 * 60, 10 * 60, 150, width / 2)
+}
+let nightMask = new NightMask(-400, 100, width * 2, 10, 30, 80, sunRange);
+nightMask.display();
+ //初始建筑   // Initial building
+building.display();
+ //天黑时亮灯  // Light up the building when it's dark
+if (currentFrame > 3 * 60 && currentFrame < 7 * 60) {
+  building.lightup()
+}
+}
+
+//个人功能部分 //Individual Work
+//夜间蒙版class // NightMask class
+class NightMask {
+constructor(xPos, yPos, radius, R, G, B, sunRange) {
+ this.xPos = xPos;
+ this.yPos = yPos;
+ this.radius = radius;
+ this.gradientValue = 0.5;
+ this.sunRange = sunRange
+ this.space = 3;
+ this.R = R;
+ this.G = G;
+ this.B = B;
+}
+display() {
+ noFill();
+ strokeWeight(this.space);
+ for (let i = 0; i < this.radius / this.space; i++) {
+   let r = sunRange + this.space * i;
+   let alpha = min(this.gradientValue * i, 200); // Limit a to 255
+   stroke(this.R, this.G, this.B, alpha);
+   ellipse(this.xPos, this.yPos, r * 2, r);
+ }
+}
 }

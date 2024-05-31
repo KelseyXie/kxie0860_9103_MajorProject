@@ -98,7 +98,7 @@ class Building {
     push();
     translate(this.xPos, this.yPos-24);
     scale(this.size, -this.size);
-    stroke(red, green, blue, opacity);
+    noStroke();
     //Draw the base segment
     fill(red, green, blue, opacity);
     beginShape()
@@ -196,6 +196,13 @@ class Building {
     rect(-460,30,18,18)
     rect(-90,30,18,18)
     rect(-65,30,18,18)
+    //reflection
+    fill(230,230,180,100)
+    rect(-320,330,18,15)
+    rect(-273,180,20,15)
+    rect(-530,120,30,10)
+    rect(-85,120,30,10)
+
 
   }
 
