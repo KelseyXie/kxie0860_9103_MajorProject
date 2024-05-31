@@ -30,7 +30,7 @@ class Building {
     
     //Set the colour of the building
     noStroke()
-    fill(this.red, this.green, this.blue);
+    fill(this.red, this.green, this.blue,this.alpha);
 
     //Draw the base
     beginShape()
@@ -198,7 +198,7 @@ class Building {
     rect(-90,30,18,18)
     rect(-65,30,18,18)
     //reflection
-    fill(230,230,180,100)
+    fill(150,130,100)
     rect(-320,330,18,15)
     rect(-273,180,20,15)
     rect(-530,120,30,10)

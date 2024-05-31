@@ -2,6 +2,8 @@ let gradientSky;
 let gradientSea
 const purpleWaves = [];
 const whiteWaves = [];
+let sparks = []
+let illuminatedBuildings = [];
 
 function windowResized() {
   print("resized")
@@ -79,7 +81,7 @@ function draw() {
   backgroundShadow.display();
   //水  // Water
   water.displayPerlinNoise();
- 
+
   //水波  // Water waves
   for (let purpleWave of purpleWaves) {
     purpleWave.edges();
@@ -94,10 +96,10 @@ function draw() {
     whiteWave.display();
   }
 
- //夜间蒙版 // NightMask class
-let currentFrame = frameCount % (10 * 60);
-if (currentFrame < 2 * 60) {
-  sunRange = map(currentFrame, 0, 2 * 60, width / 2, 150)
+  //夜间蒙版 // NightMask class
+  let currentFrame = frameCount % (10 * 60);// Loop every 10 seconds
+  if (currentFrame < 2 * 60) {
+    sunRange = map(currentFrame, 0, 2 * 60, width / 2, 150)
     //海鸥  // Seagulls
     seagullAlpha = map(currentFrame, 0, 2 * 60, 250, 0)
     seagull1.move();
@@ -106,50 +108,114 @@ if (currentFrame < 2 * 60) {
     seagull1.display(seagullAlpha);
     seagull2.display(seagullAlpha)
     seagull3.display(seagullAlpha)
-} else if ((currentFrame < 8 * 60)) {
-  sunRange = 150
-} else {
-  sunRange = map(currentFrame, 8 * 60, 10 * 60, 150, width / 2)
-  seagullAlpha = map(currentFrame, 8 * 60, 10 * 60, 0, 250)
+  } else if ((currentFrame < 8 * 60)) {
+    sunRange = 150
+  } else {
+    sunRange = map(currentFrame, 8 * 60, 10 * 60, 150, width / 2)
+    seagullAlpha = map(currentFrame, 8 * 60, 10 * 60, 0, 250)
     seagull1.move();
     seagull2.move();
     seagull3.move();
     seagull1.display(seagullAlpha);
     seagull2.display(seagullAlpha)
     seagull3.display(seagullAlpha)
-}
-let nightMask = new NightMask(-400, 100, width * 2, 10, 30, 80, sunRange);
-nightMask.display();
- //初始建筑   // Initial building
-building.display();
- //天黑时亮灯  // Light up the building when it's dark
-if (currentFrame > 3 * 60 && currentFrame < 7 * 60) {
-  building.lightup()
-}
+  }
+  let nightMask = new NightMask(-400, 100, width * 2, sunRange);
+  nightMask.display();
+
+  //初始建筑   // Initial building
+  building.display();
+  //天黑时亮灯  // Light up the building when it's dark
+  if (currentFrame > 3 * 60 && currentFrame < 7 * 60) {
+
+    // Create random fireworks based on time
+    let fireworkX = random(-width / 3, width / 3)
+    let fireworkY = random(-height / 2, -height / 5)
+    let fireworkSize = random(1.5, 3)
+    if (frameCount % 50 == 0 || frameCount % 140 == 0) {
+      createFirework(fireworkX, fireworkY, fireworkSize)
+      // Create building illumination effects based on firework position
+
+      if (fireworkX < -310) {  //以建筑最高点为中线，左右两边产生不同的光照效果
+        illuminatedBuildings.push(new Building(-10, 115, 230, 230, 200))
+      }
+      else {
+        illuminatedBuildings.push(new Building(10, 115, 230, 230, 200))
+      }
+    }
+    // Display the lighting effects
+    for (let illuminatedBuilding of illuminatedBuildings) {
+      illuminatedBuilding.display();
+      illuminatedBuilding.illuminate();
+      // Light up the building
+
+      building.display();
+      
+      building.lightup()
+    }
+    // Play the Fireworks
+  }
+  for (let spark of sparks) {
+    spark.show()
+    spark.update()
+  }
 }
 
 //个人功能部分 //Individual Work
 //夜间蒙版class // NightMask class
 class NightMask {
-constructor(xPos, yPos, radius, R, G, B, sunRange) {
- this.xPos = xPos;
- this.yPos = yPos;
- this.radius = radius;
- this.gradientValue = 0.5;
- this.sunRange = sunRange
- this.space = 3;
- this.R = R;
- this.G = G;
- this.B = B;
+  constructor(xPos, yPos, radius, sunRange) {
+    this.xPos = xPos;
+    this.yPos = yPos;
+    this.radius = radius;
+    this.gradientValue = 0.5;
+    this.sunRange = sunRange
+    this.space = 3;
+    this.R = 10;
+    this.G = 30;
+    this.B = 80;
+  }
+  display() {
+    noFill();
+    strokeWeight(this.space);
+    for (let i = 0; i < this.radius / this.space; i++) {
+      let r = sunRange + this.space * i;
+      let alpha = min(this.gradientValue * i, 200); // Limit a to 255
+      stroke(this.R, this.G, this.B, alpha);
+      ellipse(this.xPos, this.yPos, r * 2, r);
+    }
+  }
 }
-display() {
- noFill();
- strokeWeight(this.space);
- for (let i = 0; i < this.radius / this.space; i++) {
-   let r = sunRange + this.space * i;
-   let alpha = min(this.gradientValue * i, 200); // Limit a to 255
-   stroke(this.R, this.G, this.B, alpha);
-   ellipse(this.xPos, this.yPos, r * 2, r);
- }
+
+// Fireworks 
+function createFirework(x, y, size) {
+  for (let i = 0; i < 10 + 15 * size; i++) {
+    vel = p5.Vector.random2D()
+    vel.mult(random(1, 3 * size))
+    sparks.push(new Spark(x, y, vel))
+  }
 }
+
+// Fireworks Class
+class Spark {
+  constructor(x, y, vel) {
+    this.pos = createVector(x, y)
+    this.vel = vel
+    this.trans = 255
+    this.m = random(2, 5)
+    this.r = random(200, 255)
+    this.g = random(200, 255)
+    this.b = random(150, 200)
+  }
+  show() {
+    noStroke()
+    fill(this.r, this.g, this.b, this.trans)
+    ellipse(this.pos.x, this.pos.y, 10)
+  }
+  update() {
+    this.pos.add(this.vel)
+    this.vel.mult(0.95)
+    this.vel.y += 0.15
+    this.trans -= this.m
+  }
 }

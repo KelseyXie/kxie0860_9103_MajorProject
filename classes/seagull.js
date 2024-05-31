@@ -44,7 +44,7 @@ class Seagull {
     stroke(this.color);
     this.color.setAlpha(alpha)
     noFill();
-    strokeWeight(2);
+    strokeWeight(3);
     
     
     // Draw left wing
