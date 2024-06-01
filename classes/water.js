@@ -21,7 +21,7 @@ class Water {
     //display the wave according the perlin noise wave
     displayPerlinNoise() {
         //set the colour
-        fill(50, 0, 50, 122);
+        fill(30, 0, 60, 122);//(150, 80, 60, 100)
         // Start drawing the shape
         beginShape();
         noStroke();

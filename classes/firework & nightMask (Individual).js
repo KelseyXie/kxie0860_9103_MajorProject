@@ -7,9 +7,9 @@ class NightMask {
     this.gradientValue = 0.5;
     this.sunRange = sunRange
     this.space = 3;
-    this.R = 10;
-    this.G = 20;
-    this.B = 60;
+    this.R = 20;
+    this.G = 30;
+    this.B = 50;
   }
   display() {
     noFill();

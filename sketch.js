@@ -15,8 +15,8 @@ function windowResized() {
   //Make sure the background fill the window.
   let color0 = color(20, 40, 120, 100); // Navy
   let color1 = color(100, 150, 150, 100); // Green
-  let color2 = color(220, 180, 40, 100); // Yellow
-  let color3 = color(160, 80, 50, 100); // Red
+  let color2 = color(200, 170, 70, 100); // Yellow
+  let color3 = color(150, 80, 60, 100); // Red
   gradientSky = new GradientWave(-windowWidth / 2, -windowHeight / 2, windowWidth + 200, windowHeight / 2 + 120, 50, 0.25, 0.5, color0, color1, color2, color3);
   gradientSea = new GradientWave(-windowWidth / 2, 150, windowWidth + 200, windowHeight / 2 + 120, 20, 0.1, 0.4, color3, color2, color1, color0);
 }
@@ -34,13 +34,13 @@ function setup() {
   // Create gradient background.
   let color0 = color(20, 40, 120, 100); // Navy
   let color1 = color(100, 150, 150, 100); // Green
-  let color2 = color(220, 180, 40, 100); // Yellow
-  let color3 = color(160, 80, 50, 100); // Red
+  let color2 = color(200, 170, 70, 100); // Yellow
+  let color3 = color(150, 80, 60, 100); // Red
   gradientSky = new GradientWave(-windowWidth / 2, -windowHeight / 2, windowWidth + 200, windowHeight / 2 + 120, 50, 0.25, 0.5, color0, color1, color2, color3);
   gradientSea = new GradientWave(-windowWidth / 2, 150, windowWidth + 200, windowHeight / 2 + 120, 20, 0.1, 0.4, color3, color2, color1, color0);
   // Create building and shadow of background building.
   backgroundShadow = new BackgroundShadow(400, -120, 122);
-  building = new Building(0, 120, 0, 0, 0);
+  building = new Building(0, 120, 50, 50, 50);
   // Create purple and white water waves.
   for (let i = 0; i < 20; i++) {
     purpleWaves.push(new WaveBrush(0, 200, width / 2, 200));
@@ -57,7 +57,7 @@ function draw() {
   gradientSky.display();
   gradientSea.display();
   // Draw buildings and its reflection.
-  building.reflection(20, 20, 20, 120);
+  building.reflection(50, 50, 50, 100);
   backgroundShadow.display();
   // Draw water.
   water.displayPerlinNoise();
