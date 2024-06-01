@@ -61,19 +61,7 @@ function draw() {
   backgroundShadow.display();
   // Draw water.
   water.displayPerlinNoise();
-  // Draw purple and white water waves.
-  for (let purpleWave of purpleWaves) {
-    purpleWave.edges();
-    purpleWave.flock(purpleWaves, 1, 0, 1);
-    purpleWave.update(2, 1, waveR, waveG, waveB);
-    purpleWave.display();
-  }
-  for (let whiteWave of whiteWaves) {
-    whiteWave.edges();
-    whiteWave.flock(whiteWaves, 1, 0, 1);
-    whiteWave.update(1, 1, 180, 180, 220);
-    whiteWave.display();
-  }
+
 
   //Loop between day and night in 12-second intervals.
   let currentFrame = frameCount % (12 * 60);
@@ -143,6 +131,19 @@ function draw() {
     waveR = 100
     waveG = 100
     waveB = 170
+  }
+   // Draw purple and white water waves.
+   for (let purpleWave of purpleWaves) {
+    purpleWave.edges();
+    purpleWave.flock(purpleWaves, 1, 0, 1);
+    purpleWave.update(2, 1, waveR, waveG, waveB);
+    purpleWave.display();
+  }
+  for (let whiteWave of whiteWaves) {
+    whiteWave.edges();
+    whiteWave.flock(whiteWaves, 1, 0, 1);
+    whiteWave.update(1, 1, 200, 200, 220);
+    whiteWave.display();
   }
   // Draw fireworks particles
   for (let particle of particles) {

@@ -176,6 +176,7 @@ class WaveBrush {
     //set up the position of the wave
     translate(this.xPos, this.yPos);
     //set up the colour of the wave
+    noStroke()
     fill(this.red,this.green,this.blue, this.lifespan * 2);
     let points = []
     //animate the wave depending on the lifespan of the wave
